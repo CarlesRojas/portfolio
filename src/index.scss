@@ -1,0 +1,59 @@
+// #######################################
+//      VARIABLES
+// #######################################
+
+$background: rgb(220, 220, 220);
+$text: rgb(58, 58, 58);
+$link: rgba(0, 106, 177, 0.75);
+
+$background-dark: rgb(20, 20, 20);
+$text-dark: rgb(230, 230, 230);
+$link-dark: rgba(0, 153, 255, 0.75);
+
+$font-size: 18px;
+$line-height: 22px;
+
+// #######################################
+//      MAIN ELEMENTS
+// #######################################
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    font-size: $font-size;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+
+    font-family: "Montserrat", "Helvetica", "Verdana", "Arial", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    overflow: hidden;
+    user-select: none;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    background-color: $background;
+    color: $text;
+
+    .dark & {
+        background-color: $background-dark;
+        color: $text-dark;
+    }
+}
+
+.app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}

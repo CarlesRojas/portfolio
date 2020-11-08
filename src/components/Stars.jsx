@@ -28,7 +28,6 @@ export default function Stars() {
 
     // Create options for the stars and render this component again
     const createStarOptions = () => {
-        console.log("CALCULATE STARS");
         // Get all the stars
         stars.current = [...document.querySelectorAll(".star")];
 

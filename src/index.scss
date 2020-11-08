@@ -34,6 +34,7 @@ html {
 body {
     width: 100%;
     height: 100%;
+    cursor: none;
 
     font-family: "Montserrat", "Helvetica", "Verdana", "Arial", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -59,6 +60,28 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .section {
+        width: 100%;
+        height: 100%;
+
+        // Carles Delete
+        .red {
+            background-color: rgba(255, 0, 0, 0.192);
+        }
+
+        // Carles Delete
+        .blue {
+            background-color: rgba(0, 0, 255, 0.103);
+        }
+
+        // Carles Delete
+        .green {
+            background-color: rgba(0, 128, 0, 0.13);
+        }
+    }
 }
 
 // #######################################
@@ -68,7 +91,7 @@ body {
 .cursor {
     width: 30px;
     height: 30px;
-    border: 2px solid $cursor-color;
+    border: 1px solid $cursor-color;
     border-radius: 100%;
     position: fixed;
     transform: translate(-50%, -50%);

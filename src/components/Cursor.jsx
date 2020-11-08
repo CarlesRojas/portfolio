@@ -15,8 +15,8 @@ export default function Cursor() {
     const [hidden, setHidden] = useState(false);
 
     // When the mouse moves -> Update its position
-    const onMouseMove = (e) => {
-        setPosition({ x: e.clientX, y: e.clientY });
+    const onMouseMove = (event) => {
+        setPosition({ x: event.clientX, y: event.clientY });
     };
 
     // When the mouse is clicked -> Set clicked to true

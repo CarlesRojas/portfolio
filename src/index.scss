@@ -2,15 +2,11 @@
 //      VARIABLES
 // #######################################
 
-$background: rgb(220, 220, 220);
-$text: rgb(58, 58, 58);
-$link: rgba(0, 106, 177, 0.75);
+$background: linear-gradient(0deg, rgb(5, 11, 20) 0%, rgb(20, 43, 74) 100%);
+$text: rgb(230, 230, 230);
+$link: rgba(0, 153, 255, 0.75);
 
-$background-dark: rgb(20, 20, 20);
-$text-dark: rgb(230, 230, 230);
-$link-dark: rgba(0, 153, 255, 0.75);
-
-$cursor-color: rgb(200, 200, 200);
+$cursor-color: rgb(255, 255, 255);
 
 $font-size: 18px;
 $line-height: 22px;
@@ -47,39 +43,133 @@ body {
 #root {
     width: 100%;
     height: 100%;
-    background-color: $background;
+    background: $background;
     color: $text;
-
-    .dark & {
-        background-color: $background-dark;
-        color: $text-dark;
-    }
 }
+
+// #######################################
+//      APP
+// #######################################
 
 .app {
     position: relative;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
 
-    .section {
+    .name {
+        transition: all 0.2s ease-in-out;
+        transition-property: height, font-size;
+        box-sizing: border-box;
+        position: fixed;
         width: 100%;
-        height: 100%;
+        padding: 10px;
+        font-size: 1.3rem;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        // Carles Delete
-        .red {
-            background-color: rgba(255, 0, 0, 0.192);
+        @media only screen and (min-width: 768px) {
+            font-size: 2rem;
+            height: 80px;
         }
 
-        // Carles Delete
-        .blue {
-            background-color: rgba(0, 0, 255, 0.103);
+        &.front {
+            font-size: 2.5rem;
+            height: 100%;
+
+            @media only screen and (min-width: 768px) {
+                font-size: 6rem;
+            }
+        }
+    }
+
+    .navPoints {
+        position: fixed;
+        height: 50px;
+        width: 100%;
+        z-index: 10;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        left: 0;
+        top: unset;
+        bottom: 0;
+
+        @media only screen and (min-width: 768px) {
+            top: 0;
+            bottom: unset;
+            height: 100%;
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        // Carles Delete
-        .green {
-            background-color: rgba(0, 128, 0, 0.13);
+        .navPoint {
+            position: relative;
+            transition: all 0.2s ease-in-out;
+            transition-property: width, height, opacity;
+            width: 3px;
+            height: 15px;
+            margin: 0 5px;
+            padding: 10px;
+            opacity: 0.4;
+
+            @media only screen and (min-width: 768px) {
+                height: 6px;
+                width: 25px;
+                margin: 20px 15px;
+            }
+
+            &.active {
+                opacity: 0.8;
+                height: 30px;
+
+                @media only screen and (min-width: 768px) {
+                    width: 50px;
+                    height: 6px;
+                }
+            }
+
+            .point {
+                width: 100%;
+                height: 100%;
+                border-radius: 100px;
+                background-color: white;
+            }
+        }
+    }
+
+    .sectionContainer {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .section {
+            width: 100%;
+            height: 100vh;
+            min-width: 100%;
+            min-height: 100vh;
+
+            // Carles Delete
+            &.red {
+                //background-color: rgba(255, 0, 0, 0.192);
+            }
+
+            // Carles Delete
+            &.blue {
+                //background-color: rgba(0, 0, 255, 0.103);
+            }
+
+            // Carles Delete
+            &.green {
+                //background-color: rgba(0, 128, 0, 0.13);
+            }
         }
     }
 }
@@ -113,5 +203,30 @@ body {
     &.clicked {
         transform: translate(-50%, -50%) scale(0.9);
         background-color: $cursor-color;
+    }
+}
+
+// #######################################
+//      STARS
+// #######################################
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .star {
+        position: absolute;
+        height: 2px;
+        width: 2px;
+        background-color: white;
+        border-radius: 100px;
+
+        @media only screen and (min-width: 768px) {
+            height: 4px;
+            width: 4px;
+        }
     }
 }

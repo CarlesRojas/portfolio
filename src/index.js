@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import EventsPubSub from "./EventsPubSub";
+import UtilsProvider from "contexts/Utils";
 
 import "./index.scss";
 
@@ -11,7 +12,12 @@ import "./index.scss";
 window.PubSub = new EventsPubSub();
 
 // Render React App
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+    <UtilsProvider>
+        <App />
+    </UtilsProvider>,
+    document.getElementById("root")
+);
 
 // Register service worker
 serviceWorker.register();

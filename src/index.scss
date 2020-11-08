@@ -10,6 +10,8 @@ $background-dark: rgb(20, 20, 20);
 $text-dark: rgb(230, 230, 230);
 $link-dark: rgba(0, 153, 255, 0.75);
 
+$cursor-color: rgb(200, 200, 200);
+
 $font-size: 18px;
 $line-height: 22px;
 
@@ -26,6 +28,7 @@ html {
     width: 100%;
     height: 100%;
     font-size: $font-size;
+    cursor: none;
 }
 
 body {
@@ -56,4 +59,36 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+// #######################################
+//      CURSOR
+// #######################################
+
+.cursor {
+    width: 30px;
+    height: 30px;
+    border: 2px solid $cursor-color;
+    border-radius: 100%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+    transition-property: background-color, opacity, transform, mix-blend-mode;
+    z-index: 9999;
+    mix-blend-mode: difference;
+
+    &.hidden {
+        opacity: 0;
+    }
+
+    &.hovered {
+        transform: translate(-50%, -50%) scale(1.25);
+        background-color: $cursor-color;
+    }
+
+    &.clicked {
+        transform: translate(-50%, -50%) scale(0.9);
+        background-color: $cursor-color;
+    }
 }

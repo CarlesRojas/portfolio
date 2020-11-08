@@ -50,7 +50,7 @@ export default function Stars() {
 
     // Wait until the resize ends to execute a function
     function waitToResizeEnd(func, time) {
-        var time = time || 100;
+        time = time || 100;
         var timer;
         return function (event) {
             if (timer) clearTimeout(timer);

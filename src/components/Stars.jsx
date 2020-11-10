@@ -5,7 +5,7 @@ import { Utils } from "contexts/Utils";
 
 export default function Stars() {
     // Contexts
-    const { useForceUpdate } = useContext(Utils);
+    const { useForceUpdate, isMobile } = useContext(Utils);
 
     // Force update
     const forceUpdate = useForceUpdate();
@@ -18,8 +18,7 @@ export default function Stars() {
 
     // When the mouse moves -> Update its position
     const onMouseMove = (event) => {
-        // CARLES Delete this return
-        return;
+        if (isMobile()) return;
 
         stars.current.forEach((star, i) => {
             const speed = (1 - starOpacity.current[i] + 0.05) * 7;

@@ -9,7 +9,7 @@ export default function NameTitle(props) {
     const { section } = props;
 
     // Contexts
-    const { isMobile, clamp } = useContext(Utils);
+    const { isMobile, lerp, invlerp } = useContext(Utils);
 
     // Reference to the svg and its container
     const svgRef = useRef(null);
@@ -19,41 +19,11 @@ export default function NameTitle(props) {
     //      TILT
     // #######################################
 
-    // Mouse object
-    const mouse = useRef({
-        _x: 0,
-        _y: 0,
-        x: 0,
-        y: 0,
-        origenSet: false,
-
-        updatePosition: function (event) {
-            var e = event || window.event;
-            this.x = e.clientX - this._x;
-            this.y = (e.clientY - this._y) * -1;
-        },
-
-        setOrigin: function (e) {
-            this.origenSet = true;
-            this._x = e.offsetLeft + Math.floor(e.offsetWidth / 2);
-            this._y = e.offsetTop + Math.floor(e.offsetHeight / 2);
-        },
-
-        show: function () {
-            return "(" + this.x + ", " + this.y + ")";
-        },
-    });
-
     // Update tilt
     var updateTilt = function (event) {
-        mouse.current.updatePosition(event);
-
-        // SVG Box
-        const svgBB = svgRef.current.getBBox();
-
         // Get tilt
-        const x = clamp((mouse.current.y / svgBB.height / 2).toFixed(2), -0.8, 0.6);
-        const y = clamp((mouse.current.x / svgBB.width / 2).toFixed(2), -0.3, 0.3);
+        const x = lerp(-0.5, 0.5, invlerp(window.innerHeight, 0, event.clientY));
+        const y = lerp(-0.5, 0.5, invlerp(0, window.innerWidth, event.clientX));
         const style = "rotateX(" + x + "deg) rotateY(" + y + "deg)";
 
         // Update style
@@ -64,36 +34,19 @@ export default function NameTitle(props) {
         svgRef.current.style.oTransform = style;
     };
 
-    // Update settings
-    const updateRate = 5;
-    var counter = 0;
-
-    // Check if we should update this frame
-    var isTimeToUpdate = function () {
-        return counter++ % updateRate === 0;
-    };
-
-    // Update tilt on mouse enter
-    const onMouseEnter = (event) => {
-        updateTilt(event);
-    };
-
-    // Update tilt on mouse leave
-    const onMouseLeave = () => {
-        svgRef.current.style = "";
-    };
-
-    // Update tilt on mouse move
-    const onMouseMove = (event) => {
-        if (isTimeToUpdate()) updateTilt(event);
-    };
-
     // #######################################
     //      TEXT MASK
     // #######################################
 
     // When the mouse moves -> Update the blob position & tilt image
-    const onMouseMoveDoc = (event) => {
+    const onMouseMove = (event) => {
+        // Don't animate in the dev enviroment
+        if (process.env.NODE_ENV === "development") return;
+
+        // Update Tilt
+        updateTilt(event);
+
+        // SVG Top position
         const svgTop = svgRef.current.getBoundingClientRect().top;
 
         // Circle 1
@@ -151,20 +104,12 @@ export default function NameTitle(props) {
 
     // Subscribe and unsubscrive to events
     useEffect(() => {
-        if (section === 0) {
-            document.addEventListener("mousemove", onMouseMoveDoc);
+        if (section === 0 && !isMobile()) {
             document.addEventListener("mousemove", onMouseMove);
-            document.addEventListener("mouseenter", onMouseEnter);
-            document.addEventListener("mouseleave", onMouseLeave);
         }
 
-        if (!mouse.current.origenSet) mouse.current.setOrigin(containerRef.current);
-
         return () => {
-            document.removeEventListener("mousemove", onMouseMoveDoc);
             document.removeEventListener("mousemove", onMouseMove);
-            document.removeEventListener("mouseenter", onMouseEnter);
-            document.removeEventListener("mouseleave", onMouseLeave);
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

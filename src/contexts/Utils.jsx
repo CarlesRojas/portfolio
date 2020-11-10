@@ -66,10 +66,10 @@ const UtilsProvider = (props) => {
     // Clamp a value between a min and max
     const clamp = (a, min = 0, max = 1) => Math.min(max, Math.max(min, a));
 
-    // Linear interpolation
+    // Linear interpolation (0 <= t <= 1) -> Returns value between start and end
     const lerp = (start, end, t) => start * (1 - t) + end * t;
 
-    // Inverse linear interpolation
+    // Inverse linear interpolation (x <= a <= y) -> Returns value between 0 and 1
     const invlerp = (x, y, a) => clamp((a - x) / (y - x));
 
     // #######################################

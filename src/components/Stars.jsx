@@ -16,9 +16,21 @@ export default function Stars() {
     const starCoordinates = useRef([]);
     const starOpacity = useRef([]);
 
+    // Update settings
+    const updateRate = 5;
+    var counter = 0;
+
+    // Check if we should update this frame
+    var isTimeToUpdate = function () {
+        return counter++ % updateRate === 0;
+    };
+
     // When the mouse moves -> Update its position
     const onMouseMove = (event) => {
         if (isMobile()) return;
+
+        // Update some frames
+        if (!isTimeToUpdate()) return;
 
         stars.current.forEach((star, i) => {
             const speed = (1 - starOpacity.current[i] + 0.05) * 7;

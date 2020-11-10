@@ -12,6 +12,26 @@ $font-size: 18px;
 $line-height: 22px;
 
 // #######################################
+//      MIXINS
+// #######################################
+
+@mixin transition($x...) {
+    -webkit-transition: $x;
+    -moz-transition: $x;
+    -ms-transition: $x;
+    -o-transition: $x;
+    transition: $x;
+}
+
+@mixin calc($property, $expression) {
+    #{$property}: -webkit-calc(#{$expression});
+    #{$property}: -moz-calc(#{$expression});
+    #{$property}: -ms-calc(#{$expression});
+    #{$property}: -o-calc(#{$expression});
+    #{$property}: calc(#{$expression});
+}
+
+// #######################################
 //      MAIN ELEMENTS
 // #######################################
 
@@ -88,8 +108,7 @@ body {
 
         .navPoint {
             position: relative;
-            transition: all 0.2s ease-in-out;
-            transition-property: width, height, opacity;
+            @include transition(width 0.2s ease-in-out, height 0.2s ease-in-out, opacity 0.2s ease-in-out);
             width: 3px;
             height: 15px;
             margin: 0 5px;
@@ -157,7 +176,7 @@ body {
 
 .nameTitle {
     position: absolute;
-    transition: height 0.2s ease-in-out;
+    @include transition(height 0.2s ease-in-out);
     width: 100%;
     height: 3rem;
     display: flex;
@@ -173,9 +192,10 @@ body {
     }
 
     .nameContainer {
-        transition: height 0.2s ease-in-out;
+        @include transition(height 0.2s ease-in-out);
         width: 100%;
         height: 3rem;
+        perspective: 70px;
 
         @media only screen and (min-width: 768px) {
             height: 6rem;
@@ -190,11 +210,12 @@ body {
         }
 
         .nameSVG {
+            @include transition(transform 0.2s);
             height: 100%;
             width: 100%;
 
             text {
-                transition: font-size 0.2s ease-in-out;
+                //@include transition(font-size 0.2s ease-in-out);
                 font-size: clamp(1.25rem, 5vw, 2.25rem);
                 fill: white;
 
@@ -250,35 +271,6 @@ body {
             }
         }
     }
-
-    /*
-    .name {
-        transition: all 0.2s ease-in-out;
-        transition-property: height, font-size;
-        box-sizing: border-box;
-        position: fixed;
-        width: 100%;
-        padding: 10px;
-        font-size: 1.3rem;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        @media only screen and (min-width: 768px) {
-            font-size: 2rem;
-            height: 80px;
-        }
-
-        &.front {
-            font-size: 2.5rem;
-            height: 100%;
-
-            @media only screen and (min-width: 768px) {
-                font-size: 6rem;
-            }
-        }
-    }*/
 }
 
 // #######################################
@@ -293,8 +285,7 @@ body {
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    transition: all 0.2s ease-in-out;
-    transition-property: background-color, opacity, transform, mix-blend-mode;
+    @include transition(background-color 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out, mix-blend-mode 0.2s ease-in-out);
     z-index: 9999;
     mix-blend-mode: difference;
 

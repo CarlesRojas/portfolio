@@ -9,13 +9,91 @@ export default function NameTitle(props) {
     const { section } = props;
 
     // Contexts
-    const { isMobile } = useContext(Utils);
+    const { isMobile, clamp } = useContext(Utils);
 
-    // Reference to the svg
-    const svgRef = useRef();
+    // Reference to the svg and its container
+    const svgRef = useRef(null);
+    const containerRef = useRef(null);
 
-    // When the mouse moves -> Update the blob position
+    // #######################################
+    //      TILT
+    // #######################################
+
+    // Mouse object
+    const mouse = useRef({
+        _x: 0,
+        _y: 0,
+        x: 0,
+        y: 0,
+        origenSet: false,
+
+        updatePosition: function (event) {
+            var e = event || window.event;
+            this.x = e.clientX - this._x;
+            this.y = (e.clientY - this._y) * -1;
+        },
+
+        setOrigin: function (e) {
+            this.origenSet = true;
+            this._x = e.offsetLeft + Math.floor(e.offsetWidth / 2);
+            this._y = e.offsetTop + Math.floor(e.offsetHeight / 2);
+        },
+
+        show: function () {
+            return "(" + this.x + ", " + this.y + ")";
+        },
+    });
+
+    // Update tilt
+    var updateTilt = function (event) {
+        mouse.current.updatePosition(event);
+
+        // SVG Box
+        const svgBB = svgRef.current.getBBox();
+
+        // Get tilt
+        const x = clamp((mouse.current.y / svgBB.height / 2).toFixed(2), -0.8, 0.6);
+        const y = clamp((mouse.current.x / svgBB.width / 2).toFixed(2), -0.3, 0.3);
+        const style = "rotateX(" + x + "deg) rotateY(" + y + "deg)";
+
+        // Update style
+        svgRef.current.style.transform = style;
+        svgRef.current.style.webkitTransform = style;
+        svgRef.current.style.mozTransform = style;
+        svgRef.current.style.msTransform = style;
+        svgRef.current.style.oTransform = style;
+    };
+
+    // Update settings
+    const updateRate = 5;
+    var counter = 0;
+
+    // Check if we should update this frame
+    var isTimeToUpdate = function () {
+        return counter++ % updateRate === 0;
+    };
+
+    // Update tilt on mouse enter
+    const onMouseEnter = (event) => {
+        updateTilt(event);
+    };
+
+    // Update tilt on mouse leave
+    const onMouseLeave = () => {
+        svgRef.current.style = "";
+    };
+
+    // Update tilt on mouse move
     const onMouseMove = (event) => {
+        if (isTimeToUpdate()) updateTilt(event);
+    };
+
+    // #######################################
+    //      TEXT MASK
+    // #######################################
+
+    // When the mouse moves -> Update the blob position & tilt image
+    const onMouseMoveDoc = (event) => {
         const svgTop = svgRef.current.getBoundingClientRect().top;
 
         // Circle 1
@@ -67,13 +145,26 @@ export default function NameTitle(props) {
         circle8.style.cy = `${event.clientY + 5 - svgTop}`;
     };
 
+    // #######################################
+    //      EVENTS
+    // #######################################
+
     // Subscribe and unsubscrive to events
     useEffect(() => {
-        //if (section === 0)
-        document.addEventListener("mousemove", onMouseMove);
+        if (section === 0) {
+            document.addEventListener("mousemove", onMouseMoveDoc);
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseenter", onMouseEnter);
+            document.addEventListener("mouseleave", onMouseLeave);
+        }
+
+        if (!mouse.current.origenSet) mouse.current.setOrigin(containerRef.current);
 
         return () => {
+            document.removeEventListener("mousemove", onMouseMoveDoc);
             document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseenter", onMouseEnter);
+            document.removeEventListener("mouseleave", onMouseLeave);
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +172,7 @@ export default function NameTitle(props) {
 
     return (
         <div className={classnames("nameTitle", { front: section === 0 })}>
-            <div className={classnames("nameContainer", { front: section === 0 })}>
+            <div className={classnames("nameContainer", { front: section === 0 })} ref={containerRef}>
                 <svg className="nameSVG" xmlns="http://www.w3.org/2000/svg" ref={svgRef}>
                     {/* MASK */}
                     <mask id="blobMask">

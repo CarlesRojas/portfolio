@@ -6,7 +6,7 @@ import { Utils } from "contexts/Utils";
 
 export default function NameTitle(props) {
     // Props
-    const { section } = props;
+    const { section, changeSection } = props;
 
     // Contexts
     const { isMobile, lerp, invlerp } = useContext(Utils);
@@ -116,7 +116,7 @@ export default function NameTitle(props) {
     }, [section]);
 
     return (
-        <div className={classnames("nameTitle", { front: section === 0 })}>
+        <div className={classnames("nameTitle", { front: section === 0 })} onClick={() => changeSection(0)}>
             <div className={classnames("nameContainer", { front: section === 0 })} ref={containerRef}>
                 <svg className="nameSVG" xmlns="http://www.w3.org/2000/svg" ref={svgRef}>
                     {/* MASK */}

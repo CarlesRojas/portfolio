@@ -66,7 +66,7 @@ export default function App() {
     // Change to a target section directly
     const changeSection = (targetSection) => {
         // Ignore if the target section does not exists
-        if (targetSection < 0 || targetSection >= numSections.current) return;
+        if (targetSection < 0 || targetSection >= numSections.current || targetSection === currSection.current) return;
 
         // If it changed section recently -> Block action
         if (changeSectionTimeout.current) return;
@@ -138,12 +138,6 @@ export default function App() {
 
     return (
         <div className="app">
-            {/* STARS */}
-            <Stars></Stars>
-
-            {/* NAME TITLE */}
-            <NameTitle section={section}></NameTitle>
-
             {/* NAV POINTS */}
             <div className="navPoints">
                 <div className={classnames("navPoint", "hoverable", { active: section === 0 })} onClick={() => changeSection(0)}>
@@ -167,6 +161,12 @@ export default function App() {
                 <div className="section blue"></div>
                 <div className="section green"></div>
             </animated.div>
+
+            {/* STARS */}
+            <Stars></Stars>
+
+            {/* NAME TITLE */}
+            <NameTitle section={section} changeSection={changeSection}></NameTitle>
 
             {/* CURSOR */}
             <Cursor />

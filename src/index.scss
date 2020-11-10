@@ -15,6 +15,11 @@ $line-height: 22px;
 //      MAIN ELEMENTS
 // #######################################
 
+@font-face {
+    font-family: "Graffiti";
+    src: local("Graffiti"), url(fonts/graffiti.ttf) format("truetype");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -56,34 +61,6 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-
-    .name {
-        transition: all 0.2s ease-in-out;
-        transition-property: height, font-size;
-        box-sizing: border-box;
-        position: fixed;
-        width: 100%;
-        padding: 10px;
-        font-size: 1.3rem;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        @media only screen and (min-width: 768px) {
-            font-size: 2rem;
-            height: 80px;
-        }
-
-        &.front {
-            font-size: 2.5rem;
-            height: 100%;
-
-            @media only screen and (min-width: 768px) {
-                font-size: 6rem;
-            }
-        }
-    }
 
     .navPoints {
         position: fixed;
@@ -172,6 +149,136 @@ body {
             }
         }
     }
+}
+
+// #######################################
+//      NAME TITLE
+// #######################################
+
+.nameTitle {
+    position: absolute;
+    transition: height 0.2s ease-in-out;
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media only screen and (min-width: 768px) {
+        height: 6rem;
+    }
+
+    &.front {
+        height: 100%;
+    }
+
+    .nameContainer {
+        transition: height 0.2s ease-in-out;
+        width: 100%;
+        height: 3rem;
+
+        @media only screen and (min-width: 768px) {
+            height: 6rem;
+        }
+
+        &.front {
+            height: 5rem;
+
+            @media only screen and (min-width: 768px) {
+                height: 10rem;
+            }
+        }
+
+        .nameSVG {
+            height: 100%;
+            width: 100%;
+
+            text {
+                transition: font-size 0.2s ease-in-out;
+                font-size: clamp(1.25rem, 5vw, 2.25rem);
+                fill: white;
+
+                &.front {
+                    font-size: clamp(2rem, 8vw, 6rem);
+                }
+            }
+
+            .graffitiName {
+                font-family: Graffiti, sans-serif;
+            }
+
+            #circle1,
+            #circle5 {
+                animation: rotateClockwise 1s linear infinite;
+                transform-origin: 145px 150px;
+            }
+
+            #circle2,
+            #circle6 {
+                animation: rotateAntiClockwise 2s linear infinite;
+                transform-origin: 155px 150px;
+            }
+
+            #circle3,
+            #circle7 {
+                animation: rotateClockwise 3s linear infinite;
+                transform-origin: 150px 145px;
+            }
+
+            #circle4,
+            #circle8 {
+                animation: rotateAntiClockwise 2.5s linear infinite;
+                transform-origin: 150px 155px;
+            }
+
+            @keyframes rotateClockwise {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes rotateAntiClockwise {
+                from {
+                    transform: rotate(360deg);
+                }
+                to {
+                    transform: rotate(0deg);
+                }
+            }
+        }
+    }
+
+    /*
+    .name {
+        transition: all 0.2s ease-in-out;
+        transition-property: height, font-size;
+        box-sizing: border-box;
+        position: fixed;
+        width: 100%;
+        padding: 10px;
+        font-size: 1.3rem;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media only screen and (min-width: 768px) {
+            font-size: 2rem;
+            height: 80px;
+        }
+
+        &.front {
+            font-size: 2.5rem;
+            height: 100%;
+
+            @media only screen and (min-width: 768px) {
+                font-size: 6rem;
+            }
+        }
+    }*/
 }
 
 // #######################################

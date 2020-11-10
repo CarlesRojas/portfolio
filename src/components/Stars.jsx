@@ -18,6 +18,9 @@ export default function Stars() {
 
     // When the mouse moves -> Update its position
     const onMouseMove = (event) => {
+        // CARLES Delete this return
+        return;
+
         stars.current.forEach((star, i) => {
             const speed = (1 - starOpacity.current[i] + 0.05) * 7;
             const x = (window.innerWidth - event.pageX * speed) / 100;

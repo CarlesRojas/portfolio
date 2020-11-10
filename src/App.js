@@ -3,6 +3,9 @@ import Cursor from "components/Cursor";
 import { animated, useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import classnames from "classnames";
+
+// Components
+import NameTitle from "components/NameTitle";
 import Stars from "components/Stars";
 
 // Contexts
@@ -133,14 +136,15 @@ export default function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // #######################################
-    //      NAVIGATION POINTS
-    // #######################################
-
     return (
         <div className="app">
+            {/* STARS */}
             <Stars></Stars>
-            <div className={classnames("name", { front: section === 0 })}>[ carles rojas ]</div>
+
+            {/* NAME TITLE */}
+            <NameTitle section={section}></NameTitle>
+
+            {/* NAV POINTS */}
             <div className="navPoints">
                 <div className={classnames("navPoint", "hoverable", { active: section === 0 })} onClick={() => changeSection(0)}>
                     <div className="point"></div>
@@ -155,12 +159,16 @@ export default function App() {
                     <div className="point"></div>
                 </div>
             </div>
+
+            {/* SECTIONS */}
             <animated.div className="sectionContainer" {...gestureBind()} style={{ y, height: currSectionHeight.current * numSections.current }}>
                 <div className="section"></div>
                 <div className="section red"></div>
                 <div className="section blue"></div>
                 <div className="section green"></div>
             </animated.div>
+
+            {/* CURSOR */}
             <Cursor />
         </div>
     );

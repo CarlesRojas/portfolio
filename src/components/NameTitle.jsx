@@ -110,8 +110,8 @@ export default function NameTitle(props) {
         if (section !== 0) {
             let text_length = hoverabletextRef.current.getComputedTextLength();
 
-            hoverableRectRef.current.setAttributeNS(null, "width", text_length + 30);
-            hoverableRectRef.current.setAttributeNS(null, "x", window.innerWidth / 2 - text_length / 2 - 15);
+            hoverableRectRef.current.setAttributeNS(null, "width", (text_length + 30).toFixed(2));
+            hoverableRectRef.current.setAttributeNS(null, "x", (window.innerWidth / 2 - text_length / 2 - 15).toFixed(2));
         }
     };
 
@@ -185,8 +185,10 @@ export default function NameTitle(props) {
                     <rect
                         ref={hoverableRectRef}
                         className={classnames("hoverableRect", "hoverable", { front: section === 0 })}
-                        x="50%"
+                        x="0"
                         y="10%"
+                        width="100%"
+                        height="80%"
                         fill="none"
                         stroke="none"
                         onClick={() => changeSection(0)}

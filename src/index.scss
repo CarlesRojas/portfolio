@@ -8,6 +8,9 @@ $link: rgba(0, 153, 255, 0.75);
 
 $cursor-color: rgb(255, 255, 255);
 
+$play-color: rgb(255, 153, 37);
+$play-icon: rgb(40, 40, 40);
+
 $font-size: 18px;
 $line-height: 22px;
 
@@ -29,6 +32,30 @@ $line-height: 22px;
     #{$property}: -ms-calc(#{$expression});
     #{$property}: -o-calc(#{$expression});
     #{$property}: calc(#{$expression});
+}
+
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin box-shadow($value) {
+    -webkit-box-shadow: $value;
+    -moz-box-shadow: $value;
+    -ms-box-shadow: $value;
+    -o-box-shadow: $value;
+    box-shadow: $value;
+}
+
+@mixin filter($value) {
+    -webkit-filter: $value;
+    -moz-filter: $value;
+    -ms-filter: $value;
+    -o-filter: $value;
+    filter: $value;
 }
 
 // #######################################
@@ -134,7 +161,7 @@ body {
             .point {
                 width: 100%;
                 height: 100%;
-                border-radius: 100px;
+                @include border-radius(100px);
                 background-color: white;
             }
         }
@@ -288,16 +315,40 @@ body {
 // #######################################
 
 .cursor {
-    width: 30px;
-    height: 30px;
-    border: 1px solid $cursor-color;
-    border-radius: 100%;
+    @include border-radius(100%);
+    @include box-shadow(0 0 3px 0px $cursor-color);
+    @include transition(
+        background-color 0.2s ease-in-out,
+        opacity 0.2s ease-in-out,
+        transform 0.2s ease-in-out,
+        mix-blend-mode 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out,
+        width 0.2s ease-in-out,
+        height 0.2s ease-in-out
+    );
+    width: 34px;
+    height: 34px;
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    @include transition(background-color 0.2s ease-in-out, opacity 0.2s ease-in-out, transform 0.2s ease-in-out, mix-blend-mode 0.2s ease-in-out);
     z-index: 9999;
     mix-blend-mode: difference;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+        @include transition(opacity 0.2s, transform 0.2s ease-in-out);
+        transform: scale(0);
+        opacity: 0;
+        width: 30px;
+        height: 30px;
+        padding: 2px 0 0 5px;
+
+        .cls-1 {
+            stroke: $play-icon !important;
+        }
+    }
 
     &.hidden {
         opacity: 0;
@@ -311,6 +362,20 @@ body {
     &.clicked {
         transform: translate(-50%, -50%) scale(0.9);
         background-color: $cursor-color;
+    }
+
+    &.play {
+        width: 120px;
+        height: 120px;
+        mix-blend-mode: unset;
+        background-color: $play-color;
+        @include box-shadow(none);
+
+        .icon {
+            @include transition(opacity 0.2s, transform 0.2s ease-in-out);
+            transform: scale(1);
+            opacity: 1;
+        }
     }
 }
 
@@ -331,7 +396,7 @@ body {
         height: 2px;
         width: 2px;
         background-color: white;
-        border-radius: 100px;
+        @include border-radius(100px);
 
         @media only screen and (min-width: 768px) {
             height: 4px;

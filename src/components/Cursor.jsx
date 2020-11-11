@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import classnames from "classnames";
+import SVG from "react-inlinesvg";
 
 // Contexts
 import { Utils } from "contexts/Utils";
+
+// Icons
+import PlayIcon from "resources/PlayIcon.svg";
 
 export default function Cursor() {
     // Contexts
@@ -70,7 +74,12 @@ export default function Cursor() {
         clicked: clicked,
         hidden: hidden,
         hovered: hovered,
+        play: false,
     });
 
-    return <div className={cursorClasses} style={{ left: `${position.x}px`, top: `${position.y}px` }} />;
+    return (
+        <div className={cursorClasses} style={{ left: `${position.x}px`, top: `${position.y}px` }}>
+            <SVG className="icon" src={PlayIcon} />
+        </div>
+    );
 }

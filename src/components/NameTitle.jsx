@@ -188,7 +188,7 @@ export default function NameTitle(props) {
                         x="0"
                         y="10%"
                         width="100%"
-                        height="80%"
+                        height="50%"
                         fill="none"
                         stroke="none"
                         onClick={() => changeSection(0)}
@@ -199,8 +199,8 @@ export default function NameTitle(props) {
                         ref={hoverabletextRef}
                         className={classnames({ front: section === 0 })}
                         x="50%"
-                        y="50%"
-                        dominantBaseline="middle"
+                        y="15%"
+                        dominantBaseline="hanging"
                         textAnchor="middle"
                         mask={section === 0 && !isMobile() ? "url(#blobMaskInv)" : ""}
                     >
@@ -211,12 +211,17 @@ export default function NameTitle(props) {
                     <text
                         className={classnames("graffitiName", { front: section === 0 })}
                         x="50%"
-                        y="50%"
-                        dominantBaseline="middle"
+                        y="15%"
+                        dominantBaseline="hanging"
                         textAnchor="middle"
                         mask={section === 0 && !isMobile() ? "url(#blobMask)" : "url(#hidden)"}
                     >
                         carles rojas
+                    </text>
+
+                    {/* SUBTITLE */}
+                    <text className={classnames("subtitle", { front: section === 0 })} x="50%" y="95%" dominantBaseline="auto" textAnchor="middle">
+                        design & develop
                     </text>
                 </svg>
             </div>

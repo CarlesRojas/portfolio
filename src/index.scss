@@ -261,6 +261,18 @@ body {
                 }
             }
 
+            .subtitle {
+                @include transition(font-size 0.2s ease-in-out, opacity 0.2s ease-in-out);
+                font-size: clamp(0.2rem, 2vw, 1rem) !important;
+
+                opacity: 0;
+
+                &.front {
+                    opacity: 1;
+                    font-size: clamp(0.5rem, 3vw, 1.5rem) !important;
+                }
+            }
+
             .graffitiName {
                 font-family: Graffiti, sans-serif;
             }

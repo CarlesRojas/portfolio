@@ -48,9 +48,9 @@ export default function Cursor() {
         document.addEventListener("mouseup", onMouseUp);
 
         // When the cursor hovers over certain elems -> Hover animation
-        document.querySelectorAll(".hoverable").forEach((el) => {
-            el.addEventListener("mouseover", () => setHovered(true));
-            el.addEventListener("mouseout", () => setHovered(false));
+        document.querySelectorAll(".hoverable").forEach((elem) => {
+            elem.addEventListener("mouseover", () => setHovered(true));
+            elem.addEventListener("mouseout", () => setHovered(false));
         });
 
         return () => {

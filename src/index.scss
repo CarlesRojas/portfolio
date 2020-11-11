@@ -184,6 +184,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    pointer-events: none;
 
     @media only screen and (min-width: 768px) {
         height: 6rem;
@@ -214,6 +215,15 @@ body {
         .nameSVG {
             height: 100%;
             width: 100%;
+
+            .hoverableRect {
+                height: 80%;
+                pointer-events: all;
+
+                &.front {
+                    pointer-events: none;
+                }
+            }
 
             text {
                 @include transition(font-size 0.2s ease-in-out);

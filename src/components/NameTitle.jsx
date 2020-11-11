@@ -99,10 +99,37 @@ export default function NameTitle(props) {
     };
 
     // #######################################
+    //      NAME LINK
+    // #######################################
+
+    const hoverabletextRef = useRef(null);
+    const hoverableRectRef = useRef(null);
+
+    // When the section stops animating -> Position link rect
+    const onSectionRest = ({ section }) => {
+        if (section !== 0) {
+            let text_length = hoverabletextRef.current.getComputedTextLength();
+
+            hoverableRectRef.current.setAttributeNS(null, "width", text_length + 30);
+            hoverableRectRef.current.setAttributeNS(null, "x", window.innerWidth / 2 - text_length / 2 - 15);
+        }
+    };
+
+    // Wait until the resize ends to execute a function
+    function waitToResizeEnd(func, time) {
+        time = time || 100;
+        var timer;
+        return function (event) {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(func, time, event);
+        };
+    }
+
+    // #######################################
     //      EVENTS
     // #######################################
 
-    // Subscribe and unsubscrive to events
+    // Subscribe and unsubscrive to the mouse movement
     useEffect(() => {
         if (section === 0 && !isMobile()) {
             document.addEventListener("mousemove", onMouseMove);
@@ -115,8 +142,21 @@ export default function NameTitle(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [section]);
 
+    // Listen for events
+    useEffect(() => {
+        window.PubSub.sub("onSectionRest", onSectionRest);
+        window.addEventListener("resize", waitToResizeEnd(onSectionRest, 150));
+
+        return () => {
+            window.PubSub.unsub("onSectionRest", onSectionRest);
+            window.removeEventListener("resize", waitToResizeEnd(onSectionRest, 150));
+        };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
-        <div className={classnames("nameTitle", { front: section === 0 })} onClick={() => changeSection(0)}>
+        <div className={classnames("nameTitle", { front: section === 0 })}>
             <div className={classnames("nameContainer", { front: section === 0 })} ref={containerRef}>
                 <svg className="nameSVG" xmlns="http://www.w3.org/2000/svg" ref={svgRef}>
                     {/* MASK */}
@@ -141,8 +181,20 @@ export default function NameTitle(props) {
                         <rect x="0" y="0" width="100%" height="100%" fill="black" stroke="none" />
                     </mask>
 
+                    {/* HOVERABLE RECT */}
+                    <rect
+                        ref={hoverableRectRef}
+                        className={classnames("hoverableRect", "hoverable", { front: section === 0 })}
+                        x="50%"
+                        y="10%"
+                        fill="none"
+                        stroke="none"
+                        onClick={() => changeSection(0)}
+                    ></rect>
+
                     {/* NORMAL NAME */}
                     <text
+                        ref={hoverabletextRef}
                         className={classnames({ front: section === 0 })}
                         x="50%"
                         y="50%"

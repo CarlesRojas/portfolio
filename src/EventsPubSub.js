@@ -29,10 +29,9 @@ export default class EventsPubSub {
 #######################################
 
     {
-        event:          onIndexChange
-        desciption:     Called when the index changes
-        parameters:     {subreddit, index}
-        subreddit:      Subreddit where the index has changed: "all", "homeSubreddit" or "subreddit"
-        index:          New index
+        event:          onSectionRest
+        desciption:     Called when the section change animation stops
+        parameters:     {section}
+        section:        Number of the new section
     },
 */

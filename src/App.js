@@ -37,7 +37,7 @@ export default function App() {
     const currSectionHeight = useRef(window.innerHeight);
 
     // Vertical Scoll spring
-    const [{ y }, setY] = useSpring(() => ({ y: 0 }));
+    const [{ y }, setY] = useSpring(() => ({ y: 0, onRest: () => window.PubSub.emit("onSectionRest", { section: currSection.current }) }));
 
     // Change to next or previous section
     const nextPrevSection = (next = true) => {

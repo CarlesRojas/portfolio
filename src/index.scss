@@ -8,8 +8,8 @@ $link: rgba(0, 153, 255, 0.75);
 
 $cursor-color: rgb(255, 255, 255);
 
-$play-color: rgb(255, 153, 37);
-$play-icon: rgb(40, 40, 40);
+$cursor-active-color: rgb(255, 153, 37);
+$cursor-icon-color: rgb(40, 40, 40);
 
 $font-size: 18px;
 $line-height: 22px;
@@ -24,6 +24,14 @@ $line-height: 22px;
     -ms-transition: $x;
     -o-transition: $x;
     transition: $x;
+}
+
+@mixin transition-delay($delay) {
+    -webkit-transition-delay: $delay;
+    -moz-transition-delay: $delay;
+    -ms-transition-delay: $delay;
+    -o-transition-delay: $delay;
+    transition-delay: $delay;
 }
 
 @mixin calc($property, $expression) {
@@ -56,6 +64,22 @@ $line-height: 22px;
     -ms-filter: $value;
     -o-filter: $value;
     filter: $value;
+}
+
+@mixin animation($animation) {
+    -webkit-animation: $animation;
+    -moz-animation: $animation;
+    -ms-animation: $animation;
+    -o-animation: $animation;
+    animation: $animation;
+}
+
+@mixin animation-delay($delay) {
+    -webkit-animation-delay: $delay;
+    -moz-animation-delay: $delay;
+    -ms-animation-delay: $delay;
+    -o-animation-delay: $delay;
+    animation-delay: $delay;
 }
 
 // #######################################
@@ -349,42 +373,51 @@ body {
     align-items: center;
     justify-content: center;
 
-    .icon {
-        @include transition(opacity 0.2s, transform 0.2s ease-in-out);
-        transform: scale(0);
-        opacity: 0;
-        width: 30px;
-        height: 30px;
-        padding: 2px 0 0 5px;
-
-        .cls-1 {
-            stroke: $play-icon !important;
-        }
-    }
-
+    // HIDDEN
     &.hidden {
         opacity: 0;
     }
 
+    // HOVERED
     &.hovered {
         transform: translate(-50%, -50%) scale(1.25);
         background-color: $cursor-color;
     }
 
+    // CLICKED
     &.clicked {
         transform: translate(-50%, -50%) scale(0.9);
         background-color: $cursor-color;
     }
 
-    &.play {
+    // ICON
+    .icon {
+        @include transition(transform 0.2s ease-in-out, opacity 0.2s ease-in-out);
+        @include transition-delay(0s);
+        transform: scale(0);
+        opacity: 0;
+        width: 30px;
+        height: 30px;
+
+        &.playIcon {
+            padding: 2px 0 0 5px;
+        }
+
+        .cls-1 {
+            stroke: $cursor-icon-color !important;
+        }
+    }
+
+    // PLAY || SCROLL DOWN
+    &.iconActive {
         width: 120px;
         height: 120px;
         mix-blend-mode: unset;
-        background-color: $play-color;
+        background-color: $cursor-active-color;
         @include box-shadow(none);
 
         .icon {
-            @include transition(opacity 0.2s, transform 0.2s ease-in-out);
+            @include transition-delay(0.2s);
             transform: scale(1);
             opacity: 1;
         }

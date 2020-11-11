@@ -169,7 +169,7 @@ export default function App() {
             <NameTitle section={section} changeSection={changeSection}></NameTitle>
 
             {/* CURSOR */}
-            <Cursor />
+            <Cursor section={section} />
         </div>
     );
 }

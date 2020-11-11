@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import classnames from "classnames";
 import SVG from "react-inlinesvg";
 
@@ -6,9 +6,13 @@ import SVG from "react-inlinesvg";
 import { Utils } from "contexts/Utils";
 
 // Icons
-import PlayIcon from "resources/PlayIcon.svg";
+import PlayIcon from "resources/Play.svg";
+import ScrollDownIcon from "resources/ScrollDown.svg";
 
-export default function Cursor() {
+export default function Cursor(props) {
+    // Props
+    const { section } = props;
+
     // Contexts
     const { isMobile } = useContext(Utils);
 
@@ -17,6 +21,15 @@ export default function Cursor() {
     const [clicked, setClicked] = useState(false);
     const [hovered, setHovered] = useState(false);
     const [hidden, setHidden] = useState(false);
+    const [play, setPlay] = useState(false);
+    const [scrollDown, setScrollDown] = useState(false);
+    const scrollDownTimer = useRef(null);
+
+    // If in the front page, every 2 seconds show scroll down animation
+    useEffect(() => {
+        // Clear previous timeout
+        if (scrollDownTimer.current) clearTimeout(scrollDownTimer.current);
+    }, [section]);
 
     // When the mouse moves -> Update its position
     const onMouseMove = (event) => {
@@ -57,12 +70,27 @@ export default function Cursor() {
             elem.addEventListener("mouseout", () => setHovered(false));
         });
 
+        // When the cursor hovers over certain elems -> Play animation
+        document.querySelectorAll(".playable").forEach((elem) => {
+            elem.addEventListener("mouseover", () => setPlay(true));
+            elem.addEventListener("mouseout", () => setPlay(false));
+        });
+
+        // Show the scroll icon
+        scrollDownTimer.current = setTimeout(() => {
+            setScrollDown(true);
+            setTimeout(() => setScrollDown(false), 2000);
+        }, 6000);
+
         return () => {
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseenter", onMouseEnter);
             document.removeEventListener("mouseleave", onMouseLeave);
             document.removeEventListener("mousedown", onMouseDown);
             document.removeEventListener("mouseup", onMouseUp);
+
+            // Clear previous timeout
+            if (scrollDownTimer.current) clearTimeout(scrollDownTimer.current);
         };
     }, []);
 
@@ -71,15 +99,17 @@ export default function Cursor() {
 
     // Add classes to the cursor
     const cursorClasses = classnames("cursor", {
-        clicked: clicked,
+        clicked: clicked && !play && !scrollDown,
         hidden: hidden,
-        hovered: hovered,
-        play: false,
+        hovered: hovered && !play && !scrollDown,
+        iconActive: play || scrollDown,
     });
+
+    const icon = play ? PlayIcon : ScrollDownIcon;
 
     return (
         <div className={cursorClasses} style={{ left: `${position.x}px`, top: `${position.y}px` }}>
-            <SVG className="icon" src={PlayIcon} />
+            <SVG className={classnames("icon", { playIcon: play })} src={icon} />
         </div>
     );
 }

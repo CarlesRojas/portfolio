@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import classnames from "classnames";
 
 // Contexts
@@ -126,6 +126,30 @@ export default function NameTitle(props) {
     }
 
     // #######################################
+    //      BLINKING
+    // #######################################
+
+    const blinkTimer = useRef(null);
+    const numBlinks = useRef(Math.round(lerp(1, 3, Math.random())));
+    const [blinking, setBlinking] = useState(false);
+
+    const blink = () => {
+        setBlinking(true);
+
+        blinkTimer.current = setTimeout(() => {
+            setBlinking(false);
+
+            // Blink rapidly
+            if (numBlinks.current-- > 0) blinkTimer.current = setTimeout(blink, Math.random() * 100 + 150);
+            // Start next blink
+            else {
+                numBlinks.current = Math.round(lerp(1, 3, Math.random()));
+                blinkTimer.current = setTimeout(blink, Math.random() * 10000 + 10000);
+            }
+        }, Math.random() * 50 + 100);
+    };
+
+    // #######################################
     //      EVENTS
     // #######################################
 
@@ -146,6 +170,9 @@ export default function NameTitle(props) {
     useEffect(() => {
         window.PubSub.sub("onSectionRest", onSectionRest);
         window.addEventListener("resize", waitToResizeEnd(onSectionRest, 150));
+
+        // Start the blinking
+        //blinkTimer.current = setTimeout(blink, Math.random() * 10000 + 10000);
 
         return () => {
             window.PubSub.unsub("onSectionRest", onSectionRest);
@@ -202,7 +229,7 @@ export default function NameTitle(props) {
                         y="15%"
                         dominantBaseline="hanging"
                         textAnchor="middle"
-                        mask={section === 0 && !isMobile() ? "url(#blobMaskInv)" : ""}
+                        mask={section !== 0 || isMobile() ? "" : blinking ? "url(#hidden)" : "url(#blobMaskInv)"}
                     >
                         [ carles rojas ]
                     </text>
@@ -214,7 +241,7 @@ export default function NameTitle(props) {
                         y="15%"
                         dominantBaseline="hanging"
                         textAnchor="middle"
-                        mask={section === 0 && !isMobile() ? "url(#blobMask)" : "url(#hidden)"}
+                        mask={section !== 0 || isMobile() ? "url(#hidden)" : blinking ? "" : "url(#blobMask)"}
                     >
                         carles rojas
                     </text>

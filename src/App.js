@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import Cursor from "components/Cursor";
-import { animated, useSpring } from "react-spring";
+import { a, useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import classnames from "classnames";
 
@@ -155,12 +155,12 @@ export default function App() {
             </div>
 
             {/* SECTIONS */}
-            <animated.div className="sectionContainer" {...gestureBind()} style={{ y, height: currSectionHeight.current * numSections.current }}>
+            <a.div className="sectionContainer" {...gestureBind()} style={{ y, height: currSectionHeight.current * numSections.current }}>
                 <div className="section"></div>
                 <div className="section red"></div>
                 <div className="section blue"></div>
                 <div className="section green"></div>
-            </animated.div>
+            </a.div>
 
             {/* STARS */}
             <Stars></Stars>

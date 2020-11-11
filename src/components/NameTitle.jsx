@@ -211,7 +211,7 @@ export default function NameTitle(props) {
                     <text
                         className={classnames("graffitiName", { front: section === 0 })}
                         x="50%"
-                        y="15%"
+                        y="25%"
                         dominantBaseline="hanging"
                         textAnchor="middle"
                         mask={section === 0 && !isMobile() ? "url(#blobMask)" : "url(#hidden)"}

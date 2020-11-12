@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSprings, a } from "react-spring";
+import { useSprings, a, interpolate } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import classnames from "classnames";
 

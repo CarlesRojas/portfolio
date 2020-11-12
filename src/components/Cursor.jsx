@@ -56,16 +56,11 @@ export default function Cursor(props) {
         setHidden(false);
     };
 
-    // Subscribe and unsubscrive to events
-    useEffect(() => {
-        document.addEventListener("mousemove", onMouseMove);
-        document.addEventListener("mouseenter", onMouseEnter);
-        document.addEventListener("mouseleave", onMouseLeave);
-        document.addEventListener("mousedown", onMouseDown);
-        document.addEventListener("mouseup", onMouseUp);
-
+    // Update all interactive items
+    const updateInteractiveItems = () => {
         // When the cursor hovers over certain elems -> Hover animation
         document.querySelectorAll(".hoverable").forEach((elem) => {
+            console.log(elem);
             elem.addEventListener("mouseover", () => setHovered(true));
             elem.addEventListener("mouseout", () => setHovered(false));
         });
@@ -75,6 +70,21 @@ export default function Cursor(props) {
             elem.addEventListener("mouseover", () => setPlay(true));
             elem.addEventListener("mouseout", () => setPlay(false));
         });
+    };
+
+    // Subscribe and unsubscrive to events
+    useEffect(() => {
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseenter", onMouseEnter);
+        document.addEventListener("mouseleave", onMouseLeave);
+        document.addEventListener("mousedown", onMouseDown);
+        document.addEventListener("mouseup", onMouseUp);
+
+        // Subscribe to update hoverable items
+        window.PubSub.sub("updateInteractiveItems", updateInteractiveItems);
+
+        // Update cursor interactible elements
+        updateInteractiveItems();
 
         // Show the scroll icon
         scrollDownTimer.current = setTimeout(() => {
@@ -88,6 +98,9 @@ export default function Cursor(props) {
             document.removeEventListener("mouseleave", onMouseLeave);
             document.removeEventListener("mousedown", onMouseDown);
             document.removeEventListener("mouseup", onMouseUp);
+
+            // Subscribe to update all interactive items
+            window.PubSub.unsub("updateInteractiveItems", updateInteractiveItems);
 
             // Clear previous timeout
             if (scrollDownTimer.current) clearTimeout(scrollDownTimer.current);

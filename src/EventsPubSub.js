@@ -34,4 +34,10 @@ export default class EventsPubSub {
         parameters:     {section}
         section:        Number of the new section
     },
+
+    {
+        event:          updateInteractiveItems
+        desciption:     Called when the cursor should update the interactive items
+        parameters:     {}
+    },
 */

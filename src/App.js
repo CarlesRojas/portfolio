@@ -7,6 +7,7 @@ import classnames from "classnames";
 // Components
 import NameTitle from "components/NameTitle";
 import Stars from "components/Stars";
+import Deck from "components/Deck";
 
 // Contexts
 import { Utils } from "contexts/Utils";
@@ -36,8 +37,14 @@ export default function App() {
     // Section height
     const currSectionHeight = useRef(window.innerHeight);
 
+    // When the change of section ends
+    const onSectionChangeRest = () => {
+        // Inform about the section change
+        window.PubSub.emit("onSectionRest", { section: currSection.current });
+    };
+
     // Vertical Scoll spring
-    const [{ y }, setY] = useSpring(() => ({ y: 0, onRest: () => window.PubSub.emit("onSectionRest", { section: currSection.current }) }));
+    const [{ y }, setY] = useSpring(() => ({ y: 0, onRest: onSectionChangeRest }));
 
     // Change to next or previous section
     const nextPrevSection = (next = true) => {
@@ -86,7 +93,7 @@ export default function App() {
 
     // Scroll Gesture
     const gestureBind = useDrag(
-        ({ event, down, last, vxvy: [, vy], direction: [xDir], distance, cancel, canceled }) => {
+        ({ event, down, last, vxvy: [, vy], distance, cancel, canceled }) => {
             // Stop event propagation
             event.stopPropagation();
 
@@ -123,6 +130,28 @@ export default function App() {
         forceUpdate();
     };
 
+    // #######################################
+    //      DECK
+    // #######################################
+
+    // Deck state
+    const [showDeck, setShowDeck] = useState(false);
+    const deck = showDeck ? <Deck></Deck> : null;
+
+    // Show deck the first time on section 1
+    useEffect(() => {
+        if (!showDeck && section === 1) {
+            // Show deck
+            setShowDeck(true);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [section]);
+
+    // #######################################
+    //      EVENTS
+    // #######################################
+
     // Subscribe and unsubscrive to events
     useEffect(() => {
         document.addEventListener("wheel", onWheel, { passive: false });
@@ -157,7 +186,7 @@ export default function App() {
             {/* SECTIONS */}
             <a.div className="sectionContainer" {...gestureBind()} style={{ y, height: currSectionHeight.current * numSections.current }}>
                 <div className="section"></div>
-                <div className="section red"></div>
+                <div className="section">{deck}</div>
                 <div className="section blue"></div>
                 <div className="section green"></div>
             </a.div>

@@ -60,7 +60,6 @@ export default function Cursor(props) {
     const updateInteractiveItems = () => {
         // When the cursor hovers over certain elems -> Hover animation
         document.querySelectorAll(".hoverable").forEach((elem) => {
-            console.log(elem);
             elem.addEventListener("mouseover", () => setHovered(true));
             elem.addEventListener("mouseout", () => setHovered(false));
         });

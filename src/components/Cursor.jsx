@@ -89,7 +89,7 @@ export default function Cursor(props) {
         scrollDownTimer.current = setTimeout(() => {
             setScrollDown(true);
             setTimeout(() => setScrollDown(false), 2000);
-        }, 6000);
+        }, 10000);
 
         return () => {
             document.removeEventListener("mousemove", onMouseMove);

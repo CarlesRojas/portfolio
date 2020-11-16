@@ -3,11 +3,13 @@ import Cursor from "components/Cursor";
 import { a, useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import classnames from "classnames";
+import gsap from "gsap";
 
 // Components
 import NameTitle from "components/NameTitle";
 import Stars from "components/Stars";
 import Deck from "components/Deck";
+import Loading from "components/Loading";
 
 // Contexts
 import { Utils } from "contexts/Utils";
@@ -152,10 +154,19 @@ export default function App() {
     //      EVENTS
     // #######################################
 
-    // Subscribe and unsubscrive to events
+    // Subscribe and unsubscrive to events and animate
     useEffect(() => {
         document.addEventListener("wheel", onWheel, { passive: false });
         window.addEventListener("resize", onResize);
+
+        // Animate
+        const timeline = gsap.timeline({ defaults: { ease: "power1.out" } });
+
+        timeline.to(".loadingText", { y: "0%", duration: 1, stagger: 0.25 });
+        timeline.to(".slider", { y: "-100%", duration: 0.8, delay: 0.75 });
+        timeline.to(".loadingTextContainer", { y: "-100%", duration: 0.4 }, "-=0.6");
+        timeline.fromTo(".nameTitle", { opacity: 0, y: "5%" }, { opacity: 1, y: "0%", duration: 1 }, "-=0.4");
+        timeline.fromTo(".stars", { opacity: 0 }, { opacity: 1, duration: 1 }, "-=0.3");
 
         return () => {
             document.removeEventListener("wheel", onWheel, { passive: false });
@@ -196,6 +207,9 @@ export default function App() {
 
             {/* NAME TITLE */}
             <NameTitle section={section} changeSection={changeSection}></NameTitle>
+
+            {/* LOADING */}
+            <Loading></Loading>
 
             {/* CURSOR */}
             <Cursor section={section} />

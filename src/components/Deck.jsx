@@ -19,7 +19,7 @@ const goTo = (i) => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20,
 const goFrom = () => ({ x: 0, rot: 0, scale: 1.5, y: window.innerHeight * 2 });
 
 // Interpolates rotation and scale into a css transform
-const transformStyle = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`;
+const transformStyle = (r, s) => `perspective(1500px) rotateX(10deg) rotateY(${r / 10}deg) rotateZ(${r * 0.2}deg) scale(${s})`;
 
 export default function Deck() {
     // All the cards in this set are gone
@@ -76,11 +76,7 @@ export default function Deck() {
         <div className="deck">
             {springProps.map(({ x, y, rot, scale }, i) => (
                 <a.div className="card" key={i} style={{ x, y }}>
-                    <a.div
-                        className={classnames("cardContent", "hoverable")}
-                        {...gestureBind(i)}
-                        style={{ transform: interpolate([rot, scale], transformStyle), backgroundImage: `url(${cards[i]})` }}
-                    />
+                    <a.div className={classnames("cardContent", "hoverable")} {...gestureBind(i)} style={{ transform: interpolate([rot, scale], transformStyle) }} />
                 </a.div>
             ))}
         </div>

@@ -2,7 +2,7 @@
 //      VARIABLES
 // #######################################
 
-$background: linear-gradient(0deg, rgb(5, 11, 20) 0%, rgb(20, 43, 74) 100%);
+$background: linear-gradient(0deg, rgb(7, 11, 20) 0%, rgb(29, 45, 80) 100%);
 $text: rgb(230, 230, 230);
 $link: rgba(0, 153, 255, 0.75);
 
@@ -201,8 +201,8 @@ body {
         .section {
             position: relative;
             height: 100vh;
-            width: 100%;
             min-height: 100vh;
+            width: 100%;
             min-width: 100%;
 
             // Carles Delete
@@ -228,12 +228,12 @@ body {
 // #######################################
 
 .loading {
+    pointer-events: none;
     position: absolute;
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
-    pointer-events: none;
 
     .loadingTextContainer {
         position: fixed;
@@ -245,20 +245,25 @@ body {
         width: 100%;
         top: 0;
         left: 0;
-        background: $background;
-        color: rgb(233, 233, 233);
 
         z-index: 20;
+        background: $background;
+        color: rgb(233, 233, 233);
 
         .hideMask {
             overflow: hidden;
 
             .loadingText {
-                font-weight: 400;
-                font-size: 4rem;
                 display: inline-block;
-                line-height: 6rem;
                 transform: translateY(100%);
+                font-size: 2rem;
+                font-weight: 400;
+                line-height: 4rem;
+
+                @media only screen and (min-width: 768px) {
+                    font-size: 4rem;
+                    line-height: 6rem;
+                }
             }
         }
     }
@@ -270,8 +275,8 @@ body {
         width: 100%;
         top: 0;
         left: 0;
-        background: rgb(10, 15, 20);
         z-index: 21;
+        background: rgb(10, 15, 20);
     }
 }
 
@@ -522,22 +527,27 @@ body {
         justify-content: center;
         height: 100%;
         width: 100%;
+        top: 0;
+        left: 0;
         will-change: transform;
         //background-color: red;
 
         .cardContent {
             pointer-events: all;
-            height: 85vh;
-            max-height: 570px;
-            max-width: 300px;
-            width: 45vh;
-            box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
-            background-color: white;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: auto 85%;
-            border-radius: 10px;
+            height: 75vh;
+            width: 80vw;
+            background-color: rgb(255, 255, 255);
+            border-radius: 20px;
             will-change: transform;
+            z-index: 5;
+            @include box-shadow(0 10px 40px -8px rgba(0, 0, 0, 0.3));
+
+            @media only screen and (min-width: 768px) {
+                height: 75vh;
+                width: 75vh;
+                max-width: 75vw;
+                @include box-shadow(0 15px 100px -10px rgba(0, 0, 0, 0.4));
+            }
         }
     }
 }

@@ -194,6 +194,9 @@ export default function App() {
                 </div>
             </div>
 
+            {/* STARS */}
+            <Stars></Stars>
+
             {/* SECTIONS */}
             <a.div className="sectionContainer" {...gestureBind()} style={{ y, height: currSectionHeight.current * numSections.current }}>
                 <div className="section"></div>
@@ -201,9 +204,6 @@ export default function App() {
                 <div className="section blue"></div>
                 <div className="section green"></div>
             </a.div>
-
-            {/* STARS */}
-            <Stars></Stars>
 
             {/* NAME TITLE */}
             <NameTitle section={section} changeSection={changeSection}></NameTitle>
